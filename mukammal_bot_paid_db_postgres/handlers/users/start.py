@@ -15,7 +15,7 @@ async def bot_start(message: types.Message):
     except asyncpg.exceptions.UniqueViolationError:
         user = await db.select_user(telegram_id=message.from_user.id)
 
-    await message.answer("Xush kelibsiz!")
+    await message.answer(f"Xush kelibsiz! \n{message.from_user.full_name.capitalize()} ")
 
     # ADMINGA xabar beramiz
     count = await db.count_users()

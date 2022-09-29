@@ -85,3 +85,32 @@ class Database:
 
     async def drop_users(self):
         await self.execute("DROP TABLE Users", execute=True)
+
+    async def create_table_anketa(self):
+        sql = """
+        CREATE TABLE IF NOT EXISTS anketa (
+        id SERIAL PRIMARY KEY,
+        fullname VARCHAR(255) NOT NULL,
+        email varchar(255) NULL,
+        phone_number varchar(11) NOT NULL UNIQUE,
+        telegram_id BIGINT NOT NULL UNIQUE
+        );
+        """
+        await self.execute(sql, execute=True)
+
+    @staticmethod
+    def format_args_anketa(sql, parameters: dict):
+        sql += " AND ".join([
+            f"{item} = ${num}" for num, item in enumerate(parameters.keys(),
+                                                          start=1)
+        ])
+        return sql, tuple(parameters.values())
+
+    async def add_anketa(self, fullname, email, phone_number, telegram_id):
+        sql = "INSERT INTO anketa (fullname, email, phone_number,telegram_id) VALUES($1, $2, $3, $4) returning *"
+        return await self.execute(sql, fullname, email, phone_number, telegram_id, fetchrow=True)
+
+    async def select_anketa(self, **kwargs):
+        sql = "SELECT * FROM anketa WHERE "
+        sql, parameters = self.format_args_anketa(sql, parameters=kwargs)
+        return await self.execute(sql, *parameters, fetchrow=True)
