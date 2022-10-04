@@ -7,7 +7,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from mukammal_bot_paid_db_postgres.keyboards.default.ContactKeyboard import contact
 from mukammal_bot_paid_db_postgres.keyboards.default.menuKeyboard import menu
 
-from mukammal_bot_paid_db_postgres.loader import dp, db
+from mukammal_bot_paid_db_postgres.loader import dp, db, bot
 from mukammal_bot_paid_db_postgres.states.personal_data import PersonalData
 import asyncpg
 from aiogram import types
@@ -16,7 +16,8 @@ from aiogram.dispatcher.filters import Command
 
 from mukammal_bot_paid_db_postgres.data.config import ADMINS
 from mukammal_bot_paid_db_postgres.loader import dp, db
-from mukammal_bot_paid_db_postgres.states.Elon_States import ShogirdStates
+from mukammal_bot_paid_db_postgres.states.Elon_States import ShogirdStates, SherikdStates, Ish_joyi_States, \
+    Xodim_States, Ustoz_States
 
 
 @dp.message_handler(Command("/start"))
@@ -27,6 +28,141 @@ async def starts(message: Message):
 @dp.message_handler(Command("menu"))
 async def show_menu(message: Message):
     await message.answer("Tanlang!", reply_markup=menu)
+
+
+# @dp.message_handler(text='Sherik kerak')
+# async def send_mess1(message: Message):
+#     await message.answer(
+#         "<b>Sherik topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
+#         parse_mode="HTML")
+#     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+
+
+@dp.message_handler(text='Sherik kerak')
+async def sherik(message: types.Message):
+    await message.answer(
+        "<b>Sherik topish uchun ariza berish</b>"
+        "\n\nHozir sizga birnecha savollar beriladi."
+        "\nHar biriga javob bering."
+        "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
+        "\narizangiz Adminga yuboriladi.",
+        parse_mode="HTML")
+    await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+    await SherikdStates.ismi.set()
+
+
+@dp.message_handler(state=SherikdStates.ismi)
+async def ismi1(message: types.Message, state: FSMContext):
+    ismi = message.text
+    await state.update_data(ismi=ismi)
+    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await SherikdStates.yoshi.set()
+
+
+@dp.message_handler(state=SherikdStates.yoshi)
+async def yoshi1(message: types.Message, state: FSMContext):
+    yoshi = message.text
+    await state.update_data(yoshi=yoshi)
+    await message.answer(
+        "📚 Texnologiya:\n\nTalab qilinadigan texnologiyalarni kiriting?"
+        "\nTexnologiya nomlarini vergul bilan ajrating. Masalan,"
+        "\n\nPython, C++, Javascript")
+    await SherikdStates.texnologiya.set()
+
+
+@dp.message_handler(state=SherikdStates.texnologiya)
+async def texnologiya1(message: types.Message, state: FSMContext):
+    texnologiya = message.text
+    await state.update_data(texnologiya=texnologiya)
+    await message.answer("📞 Aloqa: "
+                         "\n\nBog`lanish uchun raqamingizni kiriting?"
+                         "\nMasalan, +998 99 765 43 21")
+    await SherikdStates.aloqa.set()
+
+
+@dp.message_handler(state=SherikdStates.aloqa)
+async def aloqa1(message: types.Message, state: FSMContext):
+    aloqa = message.text
+    await state.update_data(aloqa=aloqa)
+    await message.answer("🌐 Hudud: "
+                         "\n\nQaysi hududdansiz?"
+                         "\nViloyat nomi, Toshkent shahar yoki Respublikani kiriting.")
+    await SherikdStates.hudud.set()
+
+
+@dp.message_handler(state=SherikdStates.hudud)
+async def hudud1(message: types.Message, state: FSMContext):
+    hudud = message.text
+    await state.update_data(hudud=hudud)
+    await message.answer("💰 Narxi:"
+                         "\n\nTolov qilasizmi yoki Tekinmi?"
+                         "\nKerak bo`lsa, Summani kiriting?")
+    await SherikdStates.narxi.set()
+
+
+@dp.message_handler(state=SherikdStates.narxi)
+async def narxi1(message: types.Message, state: FSMContext):
+    narxi = message.text
+    await state.update_data(narxi=narxi)
+    await message.answer("👨🏻‍💻 Kasbi:"
+                         "\n\nIshlaysizmi yoki o`qiysizmi?"
+                         "\nMasalan, Talaba")
+    await SherikdStates.kasbi.set()
+
+
+@dp.message_handler(state=SherikdStates.kasbi)
+async def kasbi1(message: types.Message, state: FSMContext):
+    kasbi = message.text
+    await state.update_data(kasbi=kasbi)
+    await message.answer("🕰 Murojaat qilish vaqti: "
+                         "\n\nQaysi vaqtda murojaat qilish mumkin?"
+                         "\nMasalan, 10:00 - 20:00")
+    await SherikdStates.murojaat_vaqti.set()
+
+
+@dp.message_handler(state=SherikdStates.murojaat_vaqti)
+async def murojat1(message: types.Message, state: FSMContext):
+    murojaat_vaqti = message.text
+    await state.update_data(murojaat_vaqti=murojaat_vaqti)
+    await message.answer("🔎 Maqsad:"
+                         "\n\nMaqsadingizni qisqacha yozib bering.")
+
+    await SherikdStates.maqsad.set()
+
+
+@dp.message_handler(state=SherikdStates.maqsad)
+async def maqsad1(message: types.Message, state: FSMContext):
+    maqsad = message.text
+    await state.update_data(maqsad=maqsad)
+    await message.answer('Qabul qilindi')
+
+    data = await state.get_data()
+    ismi = data.get('ismi')
+    yoshi = data.get('yoshi')
+    texnologiya = data.get('texnologiya')
+    aloqa = data.get('aloqa')
+    hudud = data.get('hudud')
+    narxi = data.get('narxi')
+    kasbi = data.get('kasbi')
+    murojaat_vaqti = data.get('murojaat_vaqti')
+    maqsad = data.get('maqsad')
+
+    msg = "<b>Sherik kerak:</b>\n\n"
+    msg += f"🏅 Sherik: <b>{ismi}</b>\n"
+    msg += f"🌐 Yosh: {yoshi}\n"
+    msg += f"📚 Texnologiya: <b>{texnologiya}</b>\n"
+    msg += f"🇺🇿 Telegram: @{message.from_user.username}\n"
+    msg += f"📞 Aloqa: {aloqa}\n"
+    msg += f"🌐 Hudud: <b>{hudud}</b>\n"
+    msg += f"💰 Narxi: {narxi}\n"
+    msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
+    msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
+    msg += f"🔎 Maqsad: {maqsad}\n\n"
+    msg += f"#sherik #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    await message.answer(msg)
+    await bot.send_message(-871587737, msg)
+
+    await state.finish()
 
 
 # @dp.message_handler(text='Shogird kerak')
@@ -41,20 +177,263 @@ async def show_menu(message: Message):
 #     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
 
 
-# @dp.message_handler(text='Sherik kerak')
-# async def send_mess1(message: Message):
+@dp.message_handler(text='Shogird kerak')
+async def shogird(message: types.Message):
+    await message.answer(
+        "<b>Shogird topish uchun ariza berish</b>"
+        "\n\nHozir sizga birnecha savollar beriladi."
+        "\nHar biriga javob bering."
+        "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
+        "\narizangiz Adminga yuboriladi.",
+        parse_mode="HTML")
+    await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+    await ShogirdStates.ismi.set()
+
+
+@dp.message_handler(state=ShogirdStates.ismi)
+async def ismi(message: types.Message, state: FSMContext):
+    ismi = message.text
+    await state.update_data(ismi=ismi)
+    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await ShogirdStates.yoshi.set()
+
+
+@dp.message_handler(state=ShogirdStates.yoshi)
+async def yoshi(message: types.Message, state: FSMContext):
+    yoshi = message.text
+    await state.update_data(yoshi=yoshi)
+    await message.answer(
+        "📚 Texnologiya:\n\nTalab qilinadigan texnologiyalarni kiriting?"
+        "\nTexnologiya nomlarini vergul bilan ajrating. Masalan,"
+        "\n\nPython, C++, Javascript")
+    await ShogirdStates.texnologiya.set()
+
+
+@dp.message_handler(state=ShogirdStates.texnologiya)
+async def texnologiya(message: types.Message, state: FSMContext):
+    texnologiya = message.text
+    await state.update_data(texnologiya=texnologiya)
+    await message.answer("📞 Aloqa: "
+                         "\n\nBog`lanish uchun raqamingizni kiriting?"
+                         "\nMasalan, +998 99 765 43 21")
+    await ShogirdStates.aloqa.set()
+
+
+@dp.message_handler(state=ShogirdStates.aloqa)
+async def aloqa(message: types.Message, state: FSMContext):
+    aloqa = message.text
+    await state.update_data(aloqa=aloqa)
+    await message.answer("🌐 Hudud: "
+                         "\n\nQaysi hududdansiz?"
+                         "\nViloyat nomi, Toshkent shahar yoki Respublikani kiriting.")
+    await ShogirdStates.hudud.set()
+
+
+@dp.message_handler(state=ShogirdStates.hudud)
+async def hudud(message: types.Message, state: FSMContext):
+    hudud = message.text
+    await state.update_data(hudud=hudud)
+    await message.answer("💰 Narxi:"
+                         "\n\nTolov qilasizmi yoki Tekinmi?"
+                         "\nKerak bo`lsa, Summani kiriting?")
+    await ShogirdStates.narxi.set()
+
+
+@dp.message_handler(state=ShogirdStates.narxi)
+async def narxi(message: types.Message, state: FSMContext):
+    narxi = message.text
+    await state.update_data(narxi=narxi)
+    await message.answer("👨🏻‍💻 Kasbi:"
+                         "\n\nIshlaysizmi yoki o`qiysizmi?"
+                         "\nMasalan, Talaba")
+    await ShogirdStates.kasbi.set()
+
+
+#
+#
+@dp.message_handler(state=ShogirdStates.kasbi)
+async def kasbi(message: types.Message, state: FSMContext):
+    kasbi = message.text
+    await state.update_data(kasbi=kasbi)
+    await message.answer("🕰 Murojaat qilish vaqti: "
+                         "\n\nQaysi vaqtda murojaat qilish mumkin?"
+                         "\nMasalan, 10:00 - 20:00")
+    await ShogirdStates.murojaat_vaqti.set()
+
+
+@dp.message_handler(state=ShogirdStates.murojaat_vaqti)
+async def murojat(message: types.Message, state: FSMContext):
+    murojaat_vaqti = message.text
+    await state.update_data(murojaat_vaqti=murojaat_vaqti)
+    await message.answer("🔎 Maqsad:"
+                         "\n\nMaqsadingizni qisqacha yozib bering.")
+
+    await ShogirdStates.maqsad.set()
+
+
+@dp.message_handler(state=ShogirdStates.maqsad)
+async def maqsad(message: types.Message, state: FSMContext):
+    maqsad = message.text
+    await state.update_data(maqsad=maqsad)
+    await message.answer('Qabul qilindi')
+
+    data = await state.get_data()
+    ismi = data.get('ismi')
+    yoshi = data.get('yoshi')
+    texnologiya = data.get('texnologiya')
+    aloqa = data.get('aloqa')
+    hudud = data.get('hudud')
+    narxi = data.get('narxi')
+    kasbi = data.get('kasbi')
+    murojaat_vaqti = data.get('murojaat_vaqti')
+    maqsad = data.get('maqsad')
+
+    msg = "<b>Shogird kerak:</b>\n\n"
+    msg += f"🎓 Ustoz: <b>{ismi}</b>\n"
+    msg += f"🌐 Yosh: {yoshi}\n"
+    msg += f"📚 Texnologiya: <b>{texnologiya}</b>\n"
+    msg += f"🇺🇿 Telegram: @{message.from_user.username}\n"
+    msg += f"📞 Aloqa: {aloqa}\n"
+    msg += f"🌐 Hudud: <b>{hudud}</b>\n"
+    msg += f"💰 Narxi: {narxi}\n"
+    msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
+    msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
+    msg += f"🔎 Maqsad: {maqsad}\n\n"
+    msg += f"#shogird #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    await message.answer(msg)
+    await bot.send_message(-871587737, msg)
+
+    await state.finish()
+
+
+# @dp.message_handler(text='Hodim kerak')
+# async def send_mess2(message: Message):
 #     await message.answer(
-#         "<b>Sherik topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
+#         "<b>Xodim topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
 #         parse_mode="HTML")
-#     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+#     await message.answer("🎓 Idora nomi?", parse_mode="HTML")
 
 
 @dp.message_handler(text='Hodim kerak')
-async def send_mess2(message: Message):
+async def xodim2(message: types.Message):
     await message.answer(
-        "<b>Xodim topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
+        "<b>Xodim topish uchun ariza berish</b>"
+        "\n\nHozir sizga birnecha savollar beriladi."
+        "\nHar biriga javob bering."
+        "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
+        "\narizangiz Adminga yuboriladi.",
         parse_mode="HTML")
-    await message.answer("🎓 Idora nomi?", parse_mode="HTML")
+    await message.answer("<b>🎓 Idora nomi?</b>", parse_mode="HTML")
+    await Xodim_States.idora_nomi.set()
+
+
+@dp.message_handler(state=Xodim_States.idora_nomi)
+async def idora_nomi(message: types.Message, state: FSMContext):
+    idora_nomi = message.text
+    await state.update_data(idora_nomi=idora_nomi)
+    await message.answer(
+        "📚 Texnologiya:\n\nTalab qilinadigan texnologiyalarni kiriting?"
+        "\nTexnologiya nomlarini vergul bilan ajrating. Masalan,"
+        "\n\nPython, C++, Javascript")
+    await Xodim_States.texnologiya.set()
+
+
+@dp.message_handler(state=Xodim_States.texnologiya)
+async def texnologiya(message: types.Message, state: FSMContext):
+    texnologiya = message.text
+    await state.update_data(texnologiya=texnologiya)
+    await message.answer("📞 Aloqa: "
+                         "\n\nBog`lanish uchun raqamingizni kiriting?"
+                         "\nMasalan, +998 99 765 43 21")
+    await Xodim_States.aloqa.set()
+
+
+@dp.message_handler(state=Xodim_States.aloqa)
+async def aloqa(message: types.Message, state: FSMContext):
+    aloqa = message.text
+    await state.update_data(aloqa=aloqa)
+    await message.answer("🌐 Hudud: "
+                         "\n\nQaysi hududdansiz?"
+                         "\nViloyat nomi, Toshkent shahar yoki Respublikani kiriting.")
+    await Xodim_States.hudud.set()
+
+
+@dp.message_handler(state=Xodim_States.hudud)
+async def hudud(message: types.Message, state: FSMContext):
+    hudud = message.text
+    await state.update_data(hudud=hudud)
+    await message.answer("✍️Mas'ul ism sharifi?")
+    await Xodim_States.masul_ismi.set()
+
+
+@dp.message_handler(state=Xodim_States.masul_ismi)
+async def masul_ismi(message: types.Message, state: FSMContext):
+    masul_ismi = message.text
+    await state.update_data(masul_ismi=masul_ismi)
+    await message.answer("🕰 Murojaat qilish vaqti: "
+                         "\n\nQaysi vaqtda murojaat qilish mumkin?"
+                         "\nMasalan, 10:00 - 20:00")
+    await Xodim_States.murojaat_vaqti.set()
+
+
+@dp.message_handler(state=Xodim_States.murojaat_vaqti)
+async def murojaat_vaqti(message: types.Message, state: FSMContext):
+    murojaat_vaqti = message.text
+    await state.update_data(murojaat_vaqti=murojaat_vaqti)
+    await message.answer("🕰 Ish vaqtini kiriting?")
+    await Xodim_States.ish_vaqti.set()
+
+
+@dp.message_handler(state=Xodim_States.ish_vaqti)
+async def ish_vaqti(message: types.Message, state: FSMContext):
+    ish_vaqti = message.text
+    await state.update_data(ish_vaqti=ish_vaqti)
+    await message.answer("💰 Maoshni kiriting?")
+    await Xodim_States.narxi.set()
+
+
+@dp.message_handler(state=Xodim_States.narxi)
+async def narxi(message: types.Message, state: FSMContext):
+    narxi = message.text
+    await state.update_data(narxi=narxi)
+    await message.answer("‼️Qo`shimcha ma`lumotlar?")
+    await Xodim_States.qoshimcha_malumot.set()
+
+
+@dp.message_handler(state=Xodim_States.qoshimcha_malumot)
+async def qoshimcha_malumot(message: types.Message, state: FSMContext):
+    qoshimcha_malumot = message.text
+    await state.update_data(qoshimcha_malumot=qoshimcha_malumot)
+
+    await message.answer('Qabul qilindi')
+
+    data = await state.get_data()
+    idora_nomi = data.get('idora_nomi')
+    texnologiya = data.get('texnologiya')
+    aloqa = data.get('aloqa')
+    hudud = data.get('hudud')
+    masul_ismi = data.get('masul_ismi')
+    murojaat_vaqti = data.get('murojaat_vaqti')
+    ish_vaqti = data.get('ish_vaqti')
+    narxi = data.get('narxi')
+    qoshimcha_malumot = data.get('qoshimcha_malumot')
+
+    msg = "<b>Xodim kerak:</b>\n\n"
+    msg += f"🏢 Idora: <b>{idora_nomi}</b>\n"
+    msg += f"📚 Texnologiya: <b>{texnologiya}</b>\n"
+    msg += f"🇺🇿 Telegram: @{message.from_user.username}\n"
+    msg += f"📞 Aloqa: {aloqa}\n"
+    msg += f"🌐 Hudud: <b>{hudud}</b>\n"
+    msg += f"✍ Mas'ul: {masul_ismi}\n"
+    msg += f"🕰 Murojaat vaqti: {murojaat_vaqti}\n"
+    msg += f"🕰 Ish vaqti {ish_vaqti}\n"
+    msg += f"💰 Maosh: {narxi}\n"
+    msg += f"‼  Qo`shimcha: {qoshimcha_malumot}\n\n"
+    msg += f"#ishjoyi #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    await message.answer(msg)
+    await bot.send_message(-871587737, msg)
+
+    await state.finish()
 
 
 # @dp.message_handler(text='Ish joyi kerak')
@@ -64,13 +443,274 @@ async def send_mess2(message: Message):
 #         parse_mode="HTML")
 #     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
 
-
-@dp.message_handler(text='Ustoz kerak')
-async def send_mess4(message: Message):
+@dp.message_handler(text='Ish joyi kerak')
+async def ish_joyi(message: types.Message):
     await message.answer(
-        "<b>Ustoz topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
+        "<b>Ish joyi topish uchun ariza berish</b>"
+        "\n\nHozir sizga birnecha savollar beriladi."
+        "\nHar biriga javob bering."
+        "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
+        "\narizangiz Adminga yuboriladi.",
         parse_mode="HTML")
     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+    await Ish_joyi_States.ismi.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.ismi)
+async def ismi2(message: types.Message, state: FSMContext):
+    ismi = message.text
+    await state.update_data(ismi=ismi)
+    await message.answer("🕑Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await Ish_joyi_States.yoshi.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.yoshi)
+async def yoshi2(message: types.Message, state: FSMContext):
+    yoshi = message.text
+    await state.update_data(yoshi=yoshi)
+    await message.answer(
+        "📚 Texnologiya:\n\nTalab qilinadigan texnologiyalarni kiriting?"
+        "\nTexnologiya nomlarini vergul bilan ajrating. Masalan,"
+        "\n\nPython, C++, Javascript")
+    await Ish_joyi_States.texnologiya.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.texnologiya)
+async def texnologiya2(message: types.Message, state: FSMContext):
+    texnologiya = message.text
+    await state.update_data(texnologiya=texnologiya)
+    await message.answer("📞 Aloqa: "
+                         "\n\nBog`lanish uchun raqamingizni kiriting?"
+                         "\nMasalan, +998 99 765 43 21")
+    await Ish_joyi_States.aloqa.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.aloqa)
+async def aloqa2(message: types.Message, state: FSMContext):
+    aloqa = message.text
+    await state.update_data(aloqa=aloqa)
+    await message.answer("🌐 Hudud: "
+                         "\n\nQaysi hududdansiz?"
+                         "\nViloyat nomi, Toshkent shahar yoki Respublikani kiriting.")
+    await Ish_joyi_States.hudud.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.hudud)
+async def hudud2(message: types.Message, state: FSMContext):
+    hudud = message.text
+    await state.update_data(hudud=hudud)
+    await message.answer("💰 Narxi:"
+                         "\n\nTolov qilasizmi yoki Tekinmi?"
+                         "\nKerak bo`lsa, Summani kiriting?")
+    await Ish_joyi_States.narxi.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.narxi)
+async def narxi2(message: types.Message, state: FSMContext):
+    narxi = message.text
+    await state.update_data(narxi=narxi)
+    await message.answer("👨🏻‍💻 Kasbi:"
+                         "\n\nIshlaysizmi yoki o`qiysizmi?"
+                         "\nMasalan, Talaba")
+    await Ish_joyi_States.kasbi.set()
+
+
+#
+#
+@dp.message_handler(state=Ish_joyi_States.kasbi)
+async def kasbi2(message: types.Message, state: FSMContext):
+    kasbi = message.text
+    await state.update_data(kasbi=kasbi)
+    await message.answer("🕰 Murojaat qilish vaqti: "
+                         "\n\nQaysi vaqtda murojaat qilish mumkin?"
+                         "\nMasalan, 10:00 - 20:00")
+    await Ish_joyi_States.murojaat_vaqti.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.murojaat_vaqti)
+async def murojat2(message: types.Message, state: FSMContext):
+    murojaat_vaqti = message.text
+    await state.update_data(murojaat_vaqti=murojaat_vaqti)
+    await message.answer("🔎 Maqsad:"
+                         "\n\nMaqsadingizni qisqacha yozib bering.")
+
+    await Ish_joyi_States.maqsad.set()
+
+
+@dp.message_handler(state=Ish_joyi_States.maqsad)
+async def maqsad2(message: types.Message, state: FSMContext):
+    maqsad = message.text
+    await state.update_data(maqsad=maqsad)
+    await message.answer('Qabul qilindi')
+
+    data1 = await state.get_data()
+    ismi1 = data1.get('ismi')
+    yoshi1 = data1.get('yoshi')
+    texnologiya1 = data1.get('texnologiya')
+    aloqa1 = data1.get('aloqa')
+    hudud1 = data1.get('hudud')
+    narxi1 = data1.get('narxi')
+    kasbi1 = data1.get('kasbi')
+    murojaat_vaqti1 = data1.get('murojaat_vaqti')
+    maqsad1 = data1.get('maqsad')
+
+    msg1 = "<b>Ish joyi kerak:</b>\n\n"
+    msg1 += f"👨‍💼 Ustoz: <b>{ismi1}</b>\n"
+    msg1 += f"🌐 Yosh: {yoshi1}\n"
+    msg1 += f"📚 Texnologiya: <b>{texnologiya1}</b>\n"
+    msg1 += f"🇺🇿 Telegram: @{message.from_user.username}\n"
+    msg1 += f"📞 Aloqa: {aloqa1}\n"
+    msg1 += f"🌐 Hudud: <b>{hudud1}</b>\n"
+    msg1 += f"💰 Narxi: {narxi1}\n"
+    msg1 += f"👨🏻‍💻 Kasbi: {kasbi1}\n"
+    msg1 += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti1}\n"
+    msg1 += f"🔎 Maqsad: {maqsad1}\n\n"
+    msg1 += f"#xodim #{(texnologiya1.split(' ')[0])} #{hudud1}  \n@UstozShogird boti nusxasi"
+    await message.answer(msg1)
+    await bot.send_message(-871587737, msg1)
+
+    await state.finish()
+
+
+# @dp.message_handler(text='Ustoz kerak')
+# async def send_mess4(message: Message):
+#     await message.answer(
+#         "<b>Ustoz topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
+#         parse_mode="HTML")
+#     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+
+
+
+
+@dp.message_handler(text='Ustoz kerak')
+async def shogird(message: types.Message):
+    await message.answer(
+        "<b>Ustoz topish uchun ariza berish</b>"
+        "\n\nHozir sizga birnecha savollar beriladi."
+        "\nHar biriga javob bering."
+        "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
+        "\narizangiz Adminga yuboriladi.",
+        parse_mode="HTML")
+    await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
+    await ShogirdStates.ismi.set()
+
+
+@dp.message_handler(state=Ustoz_States.ismi)
+async def ismi(message: types.Message, state: FSMContext):
+    ismi = message.text
+    await state.update_data(ismi=ismi)
+    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await Ustoz_States.yoshi.set()
+
+
+@dp.message_handler(state=Ustoz_States.yoshi)
+async def yoshi(message: types.Message, state: FSMContext):
+    yoshi = message.text
+    await state.update_data(yoshi=yoshi)
+    await message.answer(
+        "📚 Texnologiya:\n\nTalab qilinadigan texnologiyalarni kiriting?"
+        "\nTexnologiya nomlarini vergul bilan ajrating. Masalan,"
+        "\n\nPython, C++, Javascript")
+    await Ustoz_States.texnologiya.set()
+
+
+@dp.message_handler(state=Ustoz_States.texnologiya)
+async def texnologiya(message: types.Message, state: FSMContext):
+    texnologiya = message.text
+    await state.update_data(texnologiya=texnologiya)
+    await message.answer("📞 Aloqa: "
+                         "\n\nBog`lanish uchun raqamingizni kiriting?"
+                         "\nMasalan, +998 99 765 43 21")
+    await Ustoz_States.aloqa.set()
+
+
+@dp.message_handler(state=Ustoz_States.aloqa)
+async def aloqa(message: types.Message, state: FSMContext):
+    aloqa = message.text
+    await state.update_data(aloqa=aloqa)
+    await message.answer("🌐 Hudud: "
+                         "\n\nQaysi hududdansiz?"
+                         "\nViloyat nomi, Toshkent shahar yoki Respublikani kiriting.")
+    await Ustoz_States.hudud.set()
+
+
+@dp.message_handler(state=Ustoz_States.hudud)
+async def hudud(message: types.Message, state: FSMContext):
+    hudud = message.text
+    await state.update_data(hudud=hudud)
+    await message.answer("💰 Narxi:"
+                         "\n\nTolov qilasizmi yoki Tekinmi?"
+                         "\nKerak bo`lsa, Summani kiriting?")
+    await Ustoz_States.narxi.set()
+
+
+@dp.message_handler(state=Ustoz_States.narxi)
+async def narxi(message: types.Message, state: FSMContext):
+    narxi = message.text
+    await state.update_data(narxi=narxi)
+    await message.answer("👨🏻‍💻 Kasbi:"
+                         "\n\nIshlaysizmi yoki o`qiysizmi?"
+                         "\nMasalan, Talaba")
+    await Ustoz_States.kasbi.set()
+
+
+#
+#
+@dp.message_handler(state=Ustoz_States.kasbi)
+async def kasbi(message: types.Message, state: FSMContext):
+    kasbi = message.text
+    await state.update_data(kasbi=kasbi)
+    await message.answer("🕰 Murojaat qilish vaqti: "
+                         "\n\nQaysi vaqtda murojaat qilish mumkin?"
+                         "\nMasalan, 10:00 - 20:00")
+    await Ustoz_States.murojaat_vaqti.set()
+
+
+@dp.message_handler(state=Ustoz_States.murojaat_vaqti)
+async def murojat(message: types.Message, state: FSMContext):
+    murojaat_vaqti = message.text
+    await state.update_data(murojaat_vaqti=murojaat_vaqti)
+    await message.answer("🔎 Maqsad:"
+                         "\n\nMaqsadingizni qisqacha yozib bering.")
+
+    await Ustoz_States.maqsad.set()
+
+
+@dp.message_handler(state=Ustoz_States.maqsad)
+async def maqsad(message: types.Message, state: FSMContext):
+    maqsad = message.text
+    await state.update_data(maqsad=maqsad)
+    await message.answer('Qabul qilindi')
+
+    data = await state.get_data()
+    ismi = data.get('ismi')
+    yoshi = data.get('yoshi')
+    texnologiya = data.get('texnologiya')
+    aloqa = data.get('aloqa')
+    hudud = data.get('hudud')
+    narxi = data.get('narxi')
+    kasbi = data.get('kasbi')
+    murojaat_vaqti = data.get('murojaat_vaqti')
+    maqsad = data.get('maqsad')
+
+    msg = "<b>Ustoz kerak</b>:\n\n"
+    msg += f"🎓 Ustoz: <b>{ismi}</b>\n"
+    msg += f"🌐 Yosh: {yoshi}\n"
+    msg += f"📚 Texnologiya: <b>{texnologiya}</b>\n"
+    msg += f"🇺🇿 Telegram: @{message.from_user.username}\n"
+    msg += f"📞 Aloqa: {aloqa}\n"
+    msg += f"🌐 Hudud: <b>{hudud}</b>\n"
+    msg += f"💰 Narxi: {narxi}\n"
+    msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
+    msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
+    msg += f"🔎 Maqsad: {maqsad}\n\n"
+    msg += f"#shogird #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    await message.answer(msg)
+    await bot.send_message(-871587737, msg)
+
+    await state.finish()
+
+
 
 
 @dp.message_handler(text="Bog'lanish")
@@ -92,7 +732,6 @@ async def contact_vs_dev(message: Message):
 @dp.message_handler(text="<<Ortga")
 async def back(message: Message):
     await message.answer(text="Tanlang", reply_markup=menu)
-
 
 # ########
 # @dp.message_handler(text='anketa')

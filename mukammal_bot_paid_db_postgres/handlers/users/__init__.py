@@ -1,9 +1,8 @@
 from . import help
-from . import Ish_joyi
-# from . import Shogird
-from . import Sherik
-
 from . import menu
+
+
+
 from . import anketa
 from . import adminhandlers
 from . import hashtags

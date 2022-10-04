@@ -23,3 +23,6 @@ async def bot_start(message: types.Message):
     msg = f"{user[1]} bazaga qo'shildi.\nBazada {count} ta foydalanuvchi bor."
     await bot.send_message(chat_id=ADMINS[0], text=msg, reply_markup=menu)
     await bot.send_message(chat_id=-871587737, text=msg)
+
+
+
