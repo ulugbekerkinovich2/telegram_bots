@@ -104,8 +104,7 @@ async def murojat(message: types.Message, state: FSMContext):
 async def maqsad(message: types.Message, state: FSMContext):
     maqsad = message.text
     await state.update_data(maqsad=maqsad)
-    # await message.answer('Qabul qilindi')
-    # await state.finish()
+    await message.answer('Qabul qilindi')
 
     data = await state.get_data()
     ismi = data.get('ismi')

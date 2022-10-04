@@ -105,7 +105,6 @@ async def maqsad(message: types.Message, state: FSMContext):
         maqsad = message.text
         await state.update_data(maqsad=maqsad)
         await message.answer('Qabul qilindi')
-        # await state.finish()
 
         data = await state.get_data()
         ismi = data.get('ismi')
@@ -129,7 +128,7 @@ async def maqsad(message: types.Message, state: FSMContext):
         msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
         msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
         msg += f"🔎 Maqsad: {maqsad}\n\n"
-        msg += f"xodim #{(texnologiya.split(' ')[0])} #{hudud} #{(texnologiya.split(' ')[1])} \n@UstozShogird boti nusxasi"
+        msg += f"xodim #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
         await message.answer(msg)
         await bot.send_message(-871587737, msg)
 
