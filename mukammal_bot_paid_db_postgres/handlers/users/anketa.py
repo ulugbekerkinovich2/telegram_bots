@@ -4,11 +4,11 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 
 from mukammal_bot_paid_db_postgres.data.config import ADMINS
-from mukammal_bot_paid_db_postgres.loader import dp, db
+from mukammal_bot_paid_db_postgres.loader import dp, db, bot
 from mukammal_bot_paid_db_postgres.states.personal_data import PersonalData
 
 
-@dp.message_handler(text='/anketa')
+@dp.message_handler(text='anketa')
 async def enter_test(message: types.Message):
     await message.answer("to'liq ismingizni kiriting: ")
     await PersonalData.fullname.set()
@@ -47,6 +47,7 @@ async def answer_phonnum(message: types.Message, state: FSMContext):
                                    phone_number=phone_number)
 
     except asyncpg.exceptions.UniqueViolationError:
+        await message.answer('siz anketani to\'ldirgansiz!!!')
         user1 = await db.select_anketa(telegram_id=message.from_user.id)
 
     await message.answer("Ma'lumotlar saqlandi!")
@@ -58,7 +59,3 @@ async def answer_phonnum(message: types.Message, state: FSMContext):
     await message.answer(msg)
 
     await state.finish()
-
-
-
-

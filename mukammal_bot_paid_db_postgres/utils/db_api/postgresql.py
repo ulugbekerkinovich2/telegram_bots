@@ -46,8 +46,7 @@ class Database:
         id SERIAL PRIMARY KEY,
         full_name VARCHAR(255) NOT NULL,
         username varchar(255) NULL,
-        telegram_id BIGINT NOT NULL UNIQUE 
-        );
+        telegram_id BIGINT NOT NULL UNIQUE );
         """
         await self.execute(sql, execute=True)
 
@@ -93,8 +92,7 @@ class Database:
         fullname VARCHAR(255) NOT NULL,
         email varchar(255) NULL,
         phone_number varchar(11) NOT NULL UNIQUE,
-        telegram_id BIGINT NOT NULL UNIQUE
-        );
+        telegram_id BIGINT NOT NULL UNIQUE );
         """
         await self.execute(sql, execute=True)
 
@@ -110,7 +108,7 @@ class Database:
         sql = "INSERT INTO anketa (fullname, email, phone_number,telegram_id) VALUES($1, $2, $3, $4) returning *"
         return await self.execute(sql, fullname, email, phone_number, telegram_id, fetchrow=True)
 
-    async def select_anketa(self, **kwargs):
-        sql = "SELECT * FROM anketa WHERE "
-        sql, parameters = self.format_args_anketa(sql, parameters=kwargs)
-        return await self.execute(sql, *parameters, fetchrow=True)
+    async def select_anketa(self):
+        # sql = "SELECT COUNT(*) FROM anketa"
+        sql = "SELECT * FROM anketa"
+        return await self.execute(sql, fetchval=True)
