@@ -11,6 +11,7 @@ class ShogirdStates(StatesGroup):
     kasbi = State()
     murojaat_vaqti = State()
     maqsad = State()
+    end = State()
 
 
 

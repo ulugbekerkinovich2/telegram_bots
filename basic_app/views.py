@@ -22,3 +22,13 @@ class ListUsers(generics.ListCreateAPIView):
 class DetailUsers(generics.RetrieveUpdateDestroyAPIView):
     queryset = inspectDB_models.Anketa.objects.all()
     serializer_class = serializers.UsersSerializers
+
+
+class List_Elon_Shogird(generics.ListCreateAPIView):
+    queryset = inspectDB_models.ElonShogird.objects.all()
+    serializer_class = serializers.Elon_ShgirdSerializer
+
+
+class Detail_Elon_Shogird(generics.RetrieveUpdateDestroyAPIView):
+    queryset = inspectDB_models.ElonShogird.objects.all()
+    serializer_class = serializers.Elon_ShgirdSerializer

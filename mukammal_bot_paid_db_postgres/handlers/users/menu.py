@@ -6,6 +6,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 
 from mukammal_bot_paid_db_postgres.keyboards.default.ContactKeyboard import contact
 from mukammal_bot_paid_db_postgres.keyboards.default.menuKeyboard import menu
+from mukammal_bot_paid_db_postgres.keyboards.default.true_false_buttonsKeyboard import true_false_button
 
 from mukammal_bot_paid_db_postgres.loader import dp, db, bot
 from mukammal_bot_paid_db_postgres.states.personal_data import PersonalData
@@ -20,12 +21,14 @@ from mukammal_bot_paid_db_postgres.states.Elon_States import ShogirdStates, Sher
     Xodim_States, Ustoz_States
 
 
-@dp.message_handler(Command("/start"))
+@dp.message_handler(Command("start"))
 async def starts(message: Message):
-    await message.answer('Tanglang', reply_markup=menu)
+    await message.answer(
+        f"Assalom alaykum @{message.from_user.username}\nUstozShogird kanalining nusxa botiga xush kelibsiz!\n\n/help yordam buyrugi orqali nimalarga qodir ekanligimni bilib oling!",
+        reply_markup=menu)
 
 
-@dp.message_handler(Command("menu"))
+@dp.message_handler(Command("/start"))
 async def show_menu(message: Message):
     await message.answer("Tanlang!", reply_markup=menu)
 
@@ -160,8 +163,22 @@ async def maqsad1(message: types.Message, state: FSMContext):
     msg += f"🔎 Maqsad: {maqsad}\n\n"
     msg += f"#sherik #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
+    await db.add_elon_sherik(telegram_id=message.from_user.id,
+                             ismi=ismi,
+                             yoshi=yoshi,
+                             texnologiya=texnologiya,
+                             aloqa=aloqa,
+                             hudud=hudud,
+                             narxi=narxi,
+                             kasbi=kasbi,
+                             murojaat_vaqti=murojaat_vaqti,
+                             maqsad=maqsad)
+
     await bot.send_message(-871587737, msg)
 
+    await message.answer(
+        "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
+        reply_markup=menu)
     await state.finish()
 
 
@@ -182,8 +199,7 @@ async def shogird(message: types.Message):
     await message.answer(
         "<b>Shogird topish uchun ariza berish</b>"
         "\n\nHozir sizga birnecha savollar beriladi."
-        "\nHar biriga javob bering."
-        "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
+        "\nHar biriga javob bering va"
         "\narizangiz Adminga yuboriladi.",
         parse_mode="HTML")
     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
@@ -194,7 +210,7 @@ async def shogird(message: types.Message):
 async def ismi(message: types.Message, state: FSMContext):
     ismi = message.text
     await state.update_data(ismi=ismi)
-    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 25")
     await ShogirdStates.yoshi.set()
 
 
@@ -234,7 +250,7 @@ async def hudud(message: types.Message, state: FSMContext):
     hudud = message.text
     await state.update_data(hudud=hudud)
     await message.answer("💰 Narxi:"
-                         "\n\nTolov qilasizmi yoki Tekinmi?"
+                         "\n\nQancha narx taklif qilasiz yoki tekinmi?"
                          "\nKerak bo`lsa, Summani kiriting?")
     await ShogirdStates.narxi.set()
 
@@ -245,7 +261,7 @@ async def narxi(message: types.Message, state: FSMContext):
     await state.update_data(narxi=narxi)
     await message.answer("👨🏻‍💻 Kasbi:"
                          "\n\nIshlaysizmi yoki o`qiysizmi?"
-                         "\nMasalan, Talaba")
+                         "\nMasalan, ishlayman")
     await ShogirdStates.kasbi.set()
 
 
@@ -257,7 +273,7 @@ async def kasbi(message: types.Message, state: FSMContext):
     await state.update_data(kasbi=kasbi)
     await message.answer("🕰 Murojaat qilish vaqti: "
                          "\n\nQaysi vaqtda murojaat qilish mumkin?"
-                         "\nMasalan, 10:00 - 20:00")
+                         "\nMasalan, 7:00 - 11:00")
     await ShogirdStates.murojaat_vaqti.set()
 
 
@@ -275,7 +291,7 @@ async def murojat(message: types.Message, state: FSMContext):
 async def maqsad(message: types.Message, state: FSMContext):
     maqsad = message.text
     await state.update_data(maqsad=maqsad)
-    await message.answer('Qabul qilindi')
+    # await message.answer('Qabul qilindi')
 
     data = await state.get_data()
     ismi = data.get('ismi')
@@ -287,6 +303,30 @@ async def maqsad(message: types.Message, state: FSMContext):
     kasbi = data.get('kasbi')
     murojaat_vaqti = data.get('murojaat_vaqti')
     maqsad = data.get('maqsad')
+
+    # data = await state.get_data()
+    # name = data.get("name")
+    # email = data.get("email")
+    # phone_number = data.get('phone_number')
+
+    # user = await db.add_anketa(telegram_id=message.from_user.id,
+    #                            ismi=ismi,
+    #                            yoshi=yoshi,
+    #                            texnologiya=texnologiya,
+    #                            aloqa=aloqa,
+    #                            hudud=hudud,
+    #                            narxi=narxi,
+    #                            kasbi=kasbi,
+    #                            murojaat_vaqti=murojaat_vaqti,
+    #                            maqsad=maqsad)
+
+    # except asyncpg.exceptions.UniqueViolationError:
+    #     await message.answer('siz anketani to\'ldirgansiz!!!')
+    #     user1 = await db.select_anketa(telegram_id=message.from_user.id)
+    # await message.answer("Ushbu kiritilgan ma'lumotlar to'g'rimi?", reply_markup=true_false_button)
+
+    # if message.text == 'Ha':
+    # await message.answer("Ushbu kiritilgan ma'lumotlar to'g'rimi?", reply_markup=true_false_button)
 
     msg = "<b>Shogird kerak:</b>\n\n"
     msg += f"🎓 Ustoz: <b>{ismi}</b>\n"
@@ -301,9 +341,27 @@ async def maqsad(message: types.Message, state: FSMContext):
     msg += f"🔎 Maqsad: {maqsad}\n\n"
     msg += f"#shogird #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
+    await db.add_elon_shogird(telegram_id=message.from_user.id,
+                              ismi=ismi,
+                              yoshi=yoshi,
+                              texnologiya=texnologiya,
+                              aloqa=aloqa,
+                              hudud=hudud,
+                              narxi=narxi,
+                              kasbi=kasbi,
+                              murojaat_vaqti=murojaat_vaqti,
+                              maqsad=maqsad)
+
     await bot.send_message(-871587737, msg)
 
+    await message.answer(
+        "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
+        reply_markup=menu)
     await state.finish()
+    # else:
+    #
+    #     await message.answer("saqlanmadi", reply_markup=menu)
+    #     await state.finish()
 
 
 # @dp.message_handler(text='Hodim kerak')
@@ -431,8 +489,22 @@ async def qoshimcha_malumot(message: types.Message, state: FSMContext):
     msg += f"‼  Qo`shimcha: {qoshimcha_malumot}\n\n"
     msg += f"#ishjoyi #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
+    await db.add_elon_xodim(telegram_id=message.from_user.id,
+                            idora_nomi=idora_nomi,
+                            texnologiya=texnologiya,
+                            aloqa=aloqa,
+                            hudud=hudud,
+                            masul_ismi=masul_ismi,
+                            murojaat_vaqti=murojaat_vaqti,
+                            ish_vaqti=ish_vaqti,
+                            narxi=narxi,
+                            qoshimcha_malumot=qoshimcha_malumot)
+
     await bot.send_message(-871587737, msg)
 
+    await message.answer(
+        "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
+        reply_markup=menu)
     await state.finish()
 
 
@@ -544,31 +616,45 @@ async def maqsad2(message: types.Message, state: FSMContext):
     await message.answer('Qabul qilindi')
 
     data1 = await state.get_data()
-    ismi1 = data1.get('ismi')
-    yoshi1 = data1.get('yoshi')
-    texnologiya1 = data1.get('texnologiya')
-    aloqa1 = data1.get('aloqa')
-    hudud1 = data1.get('hudud')
-    narxi1 = data1.get('narxi')
-    kasbi1 = data1.get('kasbi')
-    murojaat_vaqti1 = data1.get('murojaat_vaqti')
-    maqsad1 = data1.get('maqsad')
+    ismi = data1.get('ismi')
+    yoshi = data1.get('yoshi')
+    texnologiya = data1.get('texnologiya')
+    aloqa = data1.get('aloqa')
+    hudud = data1.get('hudud')
+    narxi = data1.get('narxi')
+    kasbi = data1.get('kasbi')
+    murojaat_vaqti = data1.get('murojaat_vaqti')
+    maqsad = data1.get('maqsad')
 
-    msg1 = "<b>Ish joyi kerak:</b>\n\n"
-    msg1 += f"👨‍💼 Ustoz: <b>{ismi1}</b>\n"
-    msg1 += f"🌐 Yosh: {yoshi1}\n"
-    msg1 += f"📚 Texnologiya: <b>{texnologiya1}</b>\n"
-    msg1 += f"🇺🇿 Telegram: @{message.from_user.username}\n"
-    msg1 += f"📞 Aloqa: {aloqa1}\n"
-    msg1 += f"🌐 Hudud: <b>{hudud1}</b>\n"
-    msg1 += f"💰 Narxi: {narxi1}\n"
-    msg1 += f"👨🏻‍💻 Kasbi: {kasbi1}\n"
-    msg1 += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti1}\n"
-    msg1 += f"🔎 Maqsad: {maqsad1}\n\n"
-    msg1 += f"#xodim #{(texnologiya1.split(' ')[0])} #{hudud1}  \n@UstozShogird boti nusxasi"
-    await message.answer(msg1)
-    await bot.send_message(-871587737, msg1)
+    msg = "<b>Ish joyi kerak:</b>\n\n"
+    msg += f"👨‍💼 Ustoz: <b>{ismi}</b>\n"
+    msg += f"🌐 Yosh: {yoshi}\n"
+    msg += f"📚 Texnologiya: <b>{texnologiya}</b>\n"
+    msg += f"🇺🇿 Telegram: @{message.from_user.username}\n"
+    msg += f"📞 Aloqa: {aloqa}\n"
+    msg += f"🌐 Hudud: <b>{hudud}</b>\n"
+    msg += f"💰 Narxi: {narxi}\n"
+    msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
+    msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
+    msg += f"🔎 Maqsad: {maqsad}\n\n"
+    msg += f"#xodim #{(texnologiya.split(' ')[0])} #{hudud1}  \n@UstozShogird boti nusxasi"
+    await message.answer(msg)
+    await db.add_elon_Ish_joyi_kerak(telegram_id=message.from_user.id,
+                                     ismi=ismi,
+                                     yoshi=yoshi,
+                                     texnologiya=texnologiya,
+                                     aloqa=aloqa,
+                                     hudud=hudud,
+                                     narxi=narxi,
+                                     kasbi=kasbi,
+                                     murojaat_vaqti=murojaat_vaqti,
+                                     maqsad=maqsad)
 
+    await bot.send_message(-871587737, msg)
+
+    await message.answer(
+        "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
+        reply_markup=menu)
     await state.finish()
 
 
@@ -578,8 +664,6 @@ async def maqsad2(message: types.Message, state: FSMContext):
 #         "<b>Ustoz topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
 #         parse_mode="HTML")
 #     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
-
-
 
 
 @dp.message_handler(text='Ustoz kerak')
@@ -706,11 +790,23 @@ async def maqsad(message: types.Message, state: FSMContext):
     msg += f"🔎 Maqsad: {maqsad}\n\n"
     msg += f"#shogird #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
+    await db.add_elon_ustoz_kerak(telegram_id=message.from_user.id,
+                                  ismi=ismi,
+                                  yoshi=yoshi,
+                                  texnologiya=texnologiya,
+                                  aloqa=aloqa,
+                                  hudud=hudud,
+                                  narxi=narxi,
+                                  kasbi=kasbi,
+                                  murojaat_vaqti=murojaat_vaqti,
+                                  maqsad=maqsad)
+
     await bot.send_message(-871587737, msg)
 
+    await message.answer(
+        "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
+        reply_markup=menu)
     await state.finish()
-
-
 
 
 @dp.message_handler(text="Bog'lanish")

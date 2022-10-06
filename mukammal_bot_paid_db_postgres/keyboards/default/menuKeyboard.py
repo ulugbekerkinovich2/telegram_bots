@@ -24,6 +24,6 @@ menu = ReplyKeyboardMarkup(
         ],
 
     ], resize_keyboard=True  # button hajmii tog'irlaydi
-    , one_time_keyboard=False
+    , one_time_keyboard=True
 
 )
