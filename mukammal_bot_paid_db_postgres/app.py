@@ -14,9 +14,13 @@ async def on_startup(dispatcher):
     await db.create_table_anketa()
 
     await db.create_table_elon_shogird()
+
     await db.create_table_elon_sherik()
+
     await db.create_table_elon_xodim()
+
     await db.create_table_elon_Ish_joyi_kerak()
+
     await db.create_table_elon_ustoz_kerak()
 
     # Birlamchi komandalar (/star va /help)

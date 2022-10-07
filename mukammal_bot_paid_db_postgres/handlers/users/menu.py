@@ -1,5 +1,3 @@
-import asyncpg
-from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from aiogram.types import Message, ReplyKeyboardRemove
@@ -182,18 +180,6 @@ async def maqsad1(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-# @dp.message_handler(text='Shogird kerak')
-# async def send_mess(message: Message):
-#     await message.answer(
-#         "<b>Shogird topish uchun ariza berish</b>"
-#         "\n\nHozir sizga birnecha savollar beriladi."
-#         "\nHar biriga javob bering."
-#         "\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va"
-#         "\narizangiz Adminga yuboriladi.",
-#         parse_mode="HTML")
-#     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
-
-
 @dp.message_handler(text='Shogird kerak')
 async def shogird(message: types.Message):
     await message.answer(
@@ -291,7 +277,7 @@ async def murojat(message: types.Message, state: FSMContext):
 async def maqsad(message: types.Message, state: FSMContext):
     maqsad = message.text
     await state.update_data(maqsad=maqsad)
-    # await message.answer('Qabul qilindi')
+    await message.answer('Qabul qilindi')
 
     data = await state.get_data()
     ismi = data.get('ismi')
@@ -303,30 +289,6 @@ async def maqsad(message: types.Message, state: FSMContext):
     kasbi = data.get('kasbi')
     murojaat_vaqti = data.get('murojaat_vaqti')
     maqsad = data.get('maqsad')
-
-    # data = await state.get_data()
-    # name = data.get("name")
-    # email = data.get("email")
-    # phone_number = data.get('phone_number')
-
-    # user = await db.add_anketa(telegram_id=message.from_user.id,
-    #                            ismi=ismi,
-    #                            yoshi=yoshi,
-    #                            texnologiya=texnologiya,
-    #                            aloqa=aloqa,
-    #                            hudud=hudud,
-    #                            narxi=narxi,
-    #                            kasbi=kasbi,
-    #                            murojaat_vaqti=murojaat_vaqti,
-    #                            maqsad=maqsad)
-
-    # except asyncpg.exceptions.UniqueViolationError:
-    #     await message.answer('siz anketani to\'ldirgansiz!!!')
-    #     user1 = await db.select_anketa(telegram_id=message.from_user.id)
-    # await message.answer("Ushbu kiritilgan ma'lumotlar to'g'rimi?", reply_markup=true_false_button)
-
-    # if message.text == 'Ha':
-    # await message.answer("Ushbu kiritilgan ma'lumotlar to'g'rimi?", reply_markup=true_false_button)
 
     msg = "<b>Shogird kerak:</b>\n\n"
     msg += f"🎓 Ustoz: <b>{ismi}</b>\n"
@@ -508,13 +470,6 @@ async def qoshimcha_malumot(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-# @dp.message_handler(text='Ish joyi kerak')
-# async def send_mess3(message: Message):
-#     await message.answer(
-#         "<b>Ish joyi topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
-#         parse_mode="HTML")
-#     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
-
 @dp.message_handler(text='Ish joyi kerak')
 async def ish_joyi(message: types.Message):
     await message.answer(
@@ -532,7 +487,7 @@ async def ish_joyi(message: types.Message):
 async def ismi2(message: types.Message, state: FSMContext):
     ismi = message.text
     await state.update_data(ismi=ismi)
-    await message.answer("🕑Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await message.answer("🕑Yosh:\n\nYoshingizni kiriting? \nMasalan, 21")
     await Ish_joyi_States.yoshi.set()
 
 
@@ -587,8 +542,6 @@ async def narxi2(message: types.Message, state: FSMContext):
     await Ish_joyi_States.kasbi.set()
 
 
-#
-#
 @dp.message_handler(state=Ish_joyi_States.kasbi)
 async def kasbi2(message: types.Message, state: FSMContext):
     kasbi = message.text
@@ -627,7 +580,7 @@ async def maqsad2(message: types.Message, state: FSMContext):
     maqsad = data1.get('maqsad')
 
     msg = "<b>Ish joyi kerak:</b>\n\n"
-    msg += f"👨‍💼 Ustoz: <b>{ismi}</b>\n"
+    msg += f"👨‍💼 Ismi: <b>{ismi}</b>\n"
     msg += f"🌐 Yosh: {yoshi}\n"
     msg += f"📚 Texnologiya: <b>{texnologiya}</b>\n"
     msg += f"🇺🇿 Telegram: @{message.from_user.username}\n"
@@ -637,7 +590,7 @@ async def maqsad2(message: types.Message, state: FSMContext):
     msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
     msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
     msg += f"🔎 Maqsad: {maqsad}\n\n"
-    msg += f"#xodim #{(texnologiya.split(' ')[0])} #{hudud1}  \n@UstozShogird boti nusxasi"
+    msg += f"#xodim #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
     await db.add_elon_Ish_joyi_kerak(telegram_id=message.from_user.id,
                                      ismi=ismi,
@@ -658,16 +611,8 @@ async def maqsad2(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-# @dp.message_handler(text='Ustoz kerak')
-# async def send_mess4(message: Message):
-#     await message.answer(
-#         "<b>Ustoz topish uchun ariza berish</b>\n\nHozir sizga birnecha savollar beriladi.\nHar biriga javob bering.\nOxirida agar hammasi to`g`ri bo`lsa, HA tugmasini bosing va\narizangiz Adminga yuboriladi.",
-#         parse_mode="HTML")
-#     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
-
-
 @dp.message_handler(text='Ustoz kerak')
-async def shogird(message: types.Message):
+async def ustoz(message: types.Message):
     await message.answer(
         "<b>Ustoz topish uchun ariza berish</b>"
         "\n\nHozir sizga birnecha savollar beriladi."
@@ -676,14 +621,14 @@ async def shogird(message: types.Message):
         "\narizangiz Adminga yuboriladi.",
         parse_mode="HTML")
     await message.answer("<b>Ism, familiyangizni kiriting?</b>", parse_mode="HTML")
-    await ShogirdStates.ismi.set()
+    await Ustoz_States.ismi.set()
 
 
 @dp.message_handler(state=Ustoz_States.ismi)
 async def ismi(message: types.Message, state: FSMContext):
     ismi = message.text
     await state.update_data(ismi=ismi)
-    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 19")
+    await message.answer("🕑 Yosh:\n\nYoshingizni kiriting? \nMasalan, 26")
     await Ustoz_States.yoshi.set()
 
 
@@ -828,56 +773,3 @@ async def contact_vs_dev(message: Message):
 @dp.message_handler(text="<<Ortga")
 async def back(message: Message):
     await message.answer(text="Tanlang", reply_markup=menu)
-
-# ########
-# @dp.message_handler(text='anketa')
-# async def enter_test(message: types.Message):
-#     await message.answer("to'liq ismingizni kiriting: ")
-#     await PersonalData.fullname.set()
-#
-#
-# @dp.message_handler(state=PersonalData.fullname)
-# async def answer_fullname(message: types.Message, state: FSMContext):
-#     fullname = message.text
-#     await state.update_data(name=fullname)
-#     await message.answer('Email manzil kiriting')
-#     await PersonalData.email.set()
-#
-#
-# @dp.message_handler(state=PersonalData.email)
-# async def answer_email(message: types.Message, state: FSMContext):
-#     email = message.text
-#     await state.update_data(email=email)
-#     await message.answer('Telefon raqam kiriting')
-#     await PersonalData.phone_number.set()
-#
-#
-# @dp.message_handler(state=PersonalData.phone_number)
-# async def answer_phonnum(message: types.Message, state: FSMContext):
-#     phone_number = message.text
-#     await state.update_data(phone_number=phone_number)
-#
-#     data = await state.get_data()
-#     name = data.get("name")
-#     email = data.get("email")
-#     phone_number = data.get('phone_number')
-#
-#     try:
-#         user = await db.add_anketa(telegram_id=message.from_user.id,
-#                                    fullname=name,
-#                                    email=email,
-#                                    phone_number=phone_number)
-#
-#     except asyncpg.exceptions.UniqueViolationError:
-#         user1 = await db.select_anketa(telegram_id=message.from_user.id)
-#         await message.answer("Ushbu foydalanuvchi ma'lumotlari mazada mavjud")
-#
-#     await message.answer("Ma'lumotlar saqlandi!")
-#
-#     msg = "Quyidagi ma'lumotlar qabul qilindi:\n"
-#     msg += f"Ismingiz - {name}\n"
-#     msg += f"Email - {email}\n"
-#     msg += f"Telefon raqam - {phone_number}"
-#     await message.answer(msg)
-#
-#     await state.finish()

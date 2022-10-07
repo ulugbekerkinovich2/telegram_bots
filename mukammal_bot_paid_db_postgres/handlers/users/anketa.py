@@ -48,7 +48,9 @@ async def answer_phonnum(message: types.Message, state: FSMContext):
 
     except asyncpg.exceptions.UniqueViolationError:
         await message.answer('siz anketani to\'ldirgansiz!!!')
+        await state.finish()
         user1 = await db.select_anketa(telegram_id=message.from_user.id)
+
 
     await message.answer("Ma'lumotlar saqlandi!")
 

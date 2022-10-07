@@ -208,17 +208,14 @@ class Database:
            """
         await self.execute(sql, execute=True)
 
-    async def add_elon_ustoz_kerak(self, ismi, yoshi, texnologiya, aloqa, hudud, narxi, kasbi,
-                                   murojaat_vaqti,
-                                   maqsad, telegram_id):
-        sql = "INSERT INTO elon_xodim (ismi,yoshi, texnologiya, aloqa, hudud,narxi, kasbi, murojaat_vaqti, maqsad, telegram_id) VALUES($1, $2, $3 , $4 ,$5 ,$6 ,$7 ,$8 ,$9 , $10) returning *"
-        return await self.execute(sql, ismi, yoshi, texnologiya, aloqa, hudud, narxi, kasbi, murojaat_vaqti,
-                                  maqsad, telegram_id, fetchrow=True)
+    async def add_elon_ustoz_kerak(self, telegram_id, ismi, yoshi, texnologiya, aloqa, hudud, narxi, kasbi,
+                                   murojaat_vaqti, maqsad):
+        sql = "INSERT INTO elon_ustoz_kerak ( telegram_id, ismi,yoshi, texnologiya, aloqa, hudud,narxi, kasbi, murojaat_vaqti, maqsad,) VALUES($1, $2, $3 , $4 ,$5 ,$6 ,$7 ,$8 ,$9 , $10) returning *"
+        return await self.execute(sql, telegram_id, ismi, yoshi, texnologiya, aloqa, hudud, narxi, kasbi,
+                                  murojaat_vaqti, maqsad, fetchrow=True)
 
     async def delete_elon_ustoz_kerak(self):
-        await self.execute("DELETE FROM elon_Ish_joyi_kerak WHERE TRUE", execute=True)
-
-
+        await self.execute("DELETE FROM elon_ustoz_kerak WHERE TRUE", execute=True)
 
     async def create_table_elon_Ish_joyi_kerak(self):
         sql = """
@@ -237,15 +234,12 @@ class Database:
            """
         await self.execute(sql, execute=True)
 
-    async def add_elon_Ish_joyi_kerak(self, ismi1, yoshi1, texnologiya1, aloqa1, hudud1, narxi1, kasbi1,
-                                   murojaat_vaqti1,
-                                   maqsad1, telegram_id):
-        sql = "INSERT INTO elon_ustoz_kerak (ismi,yoshi, texnologiya, aloqa, hudud,narxi, kasbi, murojaat_vaqti, maqsad, telegram_id) VALUES($1, $2, $3 , $4 ,$5 ,$6 ,$7 ,$8 ,$9 , $10) returning *"
-        return await self.execute(sql, ismi1, yoshi1, texnologiya1, aloqa1, hudud1, narxi1, kasbi1, murojaat_vaqti1,
-                                  maqsad1, telegram_id, fetchrow=True)
+    async def add_elon_Ish_joyi_kerak(self, ismi, yoshi, texnologiya, aloqa, hudud, narxi, kasbi,
+                                      murojaat_vaqti,
+                                      maqsad, telegram_id):
+        sql = "INSERT INTO elon_Ish_joyi_kerak (ismi,yoshi, texnologiya, aloqa, hudud,narxi, kasbi, murojaat_vaqti, maqsad, telegram_id) VALUES($1, $2, $3 , $4 ,$5 ,$6 ,$7 ,$8, $9,$10) returning *"
+        return await self.execute(sql, ismi, yoshi, texnologiya, aloqa, hudud, narxi, kasbi, murojaat_vaqti,
+                                  maqsad, telegram_id, fetchrow=True)
 
     async def delete_elon_Ish_joyi_kerak(self):
-        await self.execute("DELETE FROM elon_ustoz_kerak WHERE TRUE", execute=True)
-
-
-
+        await self.execute("DELETE FROM elon_Ish_joyi_kerak WHERE TRUE", execute=True)

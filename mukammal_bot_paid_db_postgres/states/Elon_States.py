@@ -11,8 +11,18 @@ class ShogirdStates(StatesGroup):
     kasbi = State()
     murojaat_vaqti = State()
     maqsad = State()
-    end = State()
 
+
+class Ustoz_States(StatesGroup):
+    ismi = State()
+    yoshi = State()
+    texnologiya = State()
+    aloqa = State()
+    hudud = State()
+    narxi = State()
+    kasbi = State()
+    murojaat_vaqti = State()
+    maqsad = State()
 
 
 class SherikdStates(StatesGroup):
@@ -51,13 +61,4 @@ class Xodim_States(StatesGroup):
     qoshimcha_malumot = State()
 
 
-class Ustoz_States(StatesGroup):
-    ismi = State()
-    yoshi = State()
-    texnologiya = State()
-    aloqa = State()
-    hudud = State()
-    narxi = State()
-    kasbi = State()
-    murojaat_vaqti = State()
-    maqsad = State()
+

@@ -18,6 +18,9 @@ class Anketa(models.Model):
         managed = False
         db_table = 'anketa'
 
+    def __str__(self):
+        return f"{self.telegram_id}"
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -88,20 +91,6 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
-class BasicApp1(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    character = models.TextField()
-    instruction = models.TextField()
-    views = models.TextField()
-    conutry = models.CharField(max_length=128)
-
-    class Meta:
-        managed = False
-        db_table = 'basic_app_лекарства1'
-
-
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -147,6 +136,47 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class ElonIshJoyiKerak(models.Model):
+    ismi = models.CharField(max_length=255)
+    yoshi = models.CharField(max_length=255)
+    texnologiya = models.CharField(max_length=255)
+    aloqa = models.CharField(max_length=255)
+    hudud = models.CharField(max_length=255)
+    narxi = models.CharField(max_length=255)
+    kasbi = models.CharField(max_length=255)
+    murojaat_vaqti = models.CharField(max_length=255)
+    maqsad = models.CharField(max_length=255)
+    telegram_id = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'elon_ish_joyi_kerak'
+
+    def __str__(self):
+        return f"{self.telegram_id}"
+
+
+class ElonSherik(models.Model):
+    ismi = models.CharField(max_length=255)
+    yoshi = models.CharField(max_length=255)
+    texnologiya = models.CharField(max_length=255)
+    aloqa = models.CharField(max_length=255)
+    hudud = models.CharField(max_length=255)
+    narxi = models.CharField(max_length=255)
+    kasbi = models.CharField(max_length=255)
+    murojaat_vaqti = models.CharField(max_length=255)
+    maqsad = models.CharField(max_length=255)
+    telegram_id = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'elon_sherik'
+
+    def __str__(self):
+        return f"{self.telegram_id}"
+
+
+
 class ElonShogird(models.Model):
     ismi = models.CharField(max_length=255)
     yoshi = models.CharField(max_length=255)
@@ -163,6 +193,49 @@ class ElonShogird(models.Model):
         managed = False
         db_table = 'elon_shogird'
 
+    def __str__(self):
+        return f"{self.telegram_id}"
+
+
+class ElonUstozKerak(models.Model):
+    ismi = models.CharField(max_length=255)
+    yoshi = models.CharField(max_length=255)
+    texnologiya = models.CharField(max_length=255)
+    aloqa = models.CharField(max_length=255)
+    hudud = models.CharField(max_length=255)
+    narxi = models.CharField(max_length=255)
+    kasbi = models.CharField(max_length=255)
+    murojaat_vaqti = models.CharField(max_length=255)
+    maqsad = models.CharField(max_length=255)
+    telegram_id = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'elon_ustoz_kerak'
+
+    def __str__(self):
+        return f"{self.telegram_id}"
+
+
+class ElonXodim(models.Model):
+    idora_nomi = models.CharField(max_length=255)
+    texnologiya = models.CharField(max_length=255)
+    aloqa = models.CharField(max_length=255)
+    hudud = models.CharField(max_length=255)
+    masul_ismi = models.CharField(max_length=255)
+    murojaat_vaqti = models.CharField(max_length=255)
+    ish_vaqti = models.CharField(max_length=255)
+    narxi = models.CharField(max_length=255)
+    qoshimcha_malumot = models.CharField(max_length=255)
+    telegram_id = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'elon_xodim'
+
+    def __str__(self):
+        return f"{self.telegram_id}"
+
 
 class Users(models.Model):
     full_name = models.CharField(max_length=255)
@@ -172,3 +245,6 @@ class Users(models.Model):
     class Meta:
         managed = False
         db_table = 'users'
+
+    def __str__(self):
+        return f"{self.telegram_id}"
