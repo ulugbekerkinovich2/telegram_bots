@@ -176,7 +176,6 @@ class ElonSherik(models.Model):
         return f"{self.telegram_id}"
 
 
-
 class ElonShogird(models.Model):
     ismi = models.CharField(max_length=255)
     yoshi = models.CharField(max_length=255)
@@ -247,4 +246,4 @@ class Users(models.Model):
         db_table = 'users'
 
     def __str__(self):
-        return f"{self.telegram_id}"
+        return f"{self.telegram_id}: {self.username}"

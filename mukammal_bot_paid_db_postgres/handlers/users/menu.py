@@ -22,7 +22,7 @@ from mukammal_bot_paid_db_postgres.states.Elon_States import ShogirdStates, Sher
 @dp.message_handler(Command("start"))
 async def starts(message: Message):
     await message.answer(
-        f"Assalom alaykum @{message.from_user.username}\nUstozShogird kanalining nusxa botiga xush kelibsiz!\n\n/help yordam buyrugi orqali nimalarga qodir ekanligimni bilib oling!",
+        f"Assalom alaykum @{message.from_user.username}\nUstozShogird kanalining nusxa botiga xush kelibsiz!\nKanalimizga obuna bo'ling: https://t.me/ustoz_shogird_bot_nusxasi\n/help yordam buyrugi orqali nimalarga qodir ekanligimni bilib oling!",
         reply_markup=menu)
 
 
@@ -147,6 +147,20 @@ async def maqsad1(message: types.Message, state: FSMContext):
     kasbi = data.get('kasbi')
     murojaat_vaqti = data.get('murojaat_vaqti')
     maqsad = data.get('maqsad')
+    tex1 = texnologiya.split(' ')
+    # print(texnologiya)
+
+    technoc = []
+    str_tech = ''
+    for i in tex1:
+        technoc.append('#' + f'{i}')
+    # print(technoc)
+    leng = len(technoc)
+    # print(leng)
+    for j in range(0, leng):
+        # print(technoc[j])
+        str_tech = str_tech + ' ' + technoc[j]
+    # print(str_tech)
 
     msg = "<b>Sherik kerak:</b>\n\n"
     msg += f"🏅 Sherik: <b>{ismi}</b>\n"
@@ -159,7 +173,7 @@ async def maqsad1(message: types.Message, state: FSMContext):
     msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
     msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
     msg += f"🔎 Maqsad: {maqsad}\n\n"
-    msg += f"#sherik #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    msg += f"#sherik {str_tech} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
     await db.add_elon_sherik(telegram_id=message.from_user.id,
                              ismi=ismi,
@@ -172,7 +186,7 @@ async def maqsad1(message: types.Message, state: FSMContext):
                              murojaat_vaqti=murojaat_vaqti,
                              maqsad=maqsad)
 
-    await bot.send_message(-871587737, msg)
+    await bot.send_message(-1001572575437, msg)
 
     await message.answer(
         "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
@@ -289,6 +303,20 @@ async def maqsad(message: types.Message, state: FSMContext):
     kasbi = data.get('kasbi')
     murojaat_vaqti = data.get('murojaat_vaqti')
     maqsad = data.get('maqsad')
+    tex1 = texnologiya.split(' ')
+    # print(texnologiya)
+
+    technoc = []
+    str_tech = ''
+    for i in tex1:
+        technoc.append('#' + f'{i}')
+    # print(technoc)
+    leng = len(technoc)
+    # print(leng)
+    for j in range(0, leng):
+        # print(technoc[j])
+        str_tech = str_tech + ' ' + technoc[j]
+    # print(str_tech)
 
     msg = "<b>Shogird kerak:</b>\n\n"
     msg += f"🎓 Ustoz: <b>{ismi}</b>\n"
@@ -301,7 +329,7 @@ async def maqsad(message: types.Message, state: FSMContext):
     msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
     msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
     msg += f"🔎 Maqsad: {maqsad}\n\n"
-    msg += f"#shogird #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    msg += f"#shogird {str_tech} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
     await db.add_elon_shogird(telegram_id=message.from_user.id,
                               ismi=ismi,
@@ -314,7 +342,7 @@ async def maqsad(message: types.Message, state: FSMContext):
                               murojaat_vaqti=murojaat_vaqti,
                               maqsad=maqsad)
 
-    await bot.send_message(-871587737, msg)
+    await bot.send_message(-1001572575437, msg)
 
     await message.answer(
         "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
@@ -437,6 +465,20 @@ async def qoshimcha_malumot(message: types.Message, state: FSMContext):
     ish_vaqti = data.get('ish_vaqti')
     narxi = data.get('narxi')
     qoshimcha_malumot = data.get('qoshimcha_malumot')
+    tex1 = texnologiya.split(' ')
+    # print(texnologiya)
+
+    technoc = []
+    str_tech = ''
+    for i in tex1:
+        technoc.append('#' + f'{i}')
+    # print(technoc)
+    leng = len(technoc)
+    # print(leng)
+    for j in range(0, leng):
+        # print(technoc[j])
+        str_tech = str_tech + ' ' + technoc[j]
+    # print(str_tech)
 
     msg = "<b>Xodim kerak:</b>\n\n"
     msg += f"🏢 Idora: <b>{idora_nomi}</b>\n"
@@ -449,7 +491,7 @@ async def qoshimcha_malumot(message: types.Message, state: FSMContext):
     msg += f"🕰 Ish vaqti {ish_vaqti}\n"
     msg += f"💰 Maosh: {narxi}\n"
     msg += f"‼  Qo`shimcha: {qoshimcha_malumot}\n\n"
-    msg += f"#ishjoyi #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    msg += f"#ishjoyi {str_tech} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
     await db.add_elon_xodim(telegram_id=message.from_user.id,
                             idora_nomi=idora_nomi,
@@ -462,7 +504,7 @@ async def qoshimcha_malumot(message: types.Message, state: FSMContext):
                             narxi=narxi,
                             qoshimcha_malumot=qoshimcha_malumot)
 
-    await bot.send_message(-871587737, msg)
+    await bot.send_message(-1001572575437, msg)
 
     await message.answer(
         "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
@@ -578,6 +620,20 @@ async def maqsad2(message: types.Message, state: FSMContext):
     kasbi = data1.get('kasbi')
     murojaat_vaqti = data1.get('murojaat_vaqti')
     maqsad = data1.get('maqsad')
+    tex1 = texnologiya.split(' ')
+    # print(texnologiya)
+
+    technoc = []
+    str_tech = ''
+    for i in tex1:
+        technoc.append('#' + f'{i}')
+    # print(technoc)
+    leng = len(technoc)
+    # print(leng)
+    for j in range(0, leng):
+        # print(technoc[j])
+        str_tech = str_tech + ' ' + technoc[j]
+    # print(str_tech)
 
     msg = "<b>Ish joyi kerak:</b>\n\n"
     msg += f"👨‍💼 Ismi: <b>{ismi}</b>\n"
@@ -590,7 +646,7 @@ async def maqsad2(message: types.Message, state: FSMContext):
     msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
     msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
     msg += f"🔎 Maqsad: {maqsad}\n\n"
-    msg += f"#xodim #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    msg += f"#xodim {str_tech} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
     await db.add_elon_Ish_joyi_kerak(telegram_id=message.from_user.id,
                                      ismi=ismi,
@@ -603,7 +659,7 @@ async def maqsad2(message: types.Message, state: FSMContext):
                                      murojaat_vaqti=murojaat_vaqti,
                                      maqsad=maqsad)
 
-    await bot.send_message(-871587737, msg)
+    await bot.send_message(-1001572575437, msg)
 
     await message.answer(
         "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
@@ -721,6 +777,20 @@ async def maqsad(message: types.Message, state: FSMContext):
     kasbi = data.get('kasbi')
     murojaat_vaqti = data.get('murojaat_vaqti')
     maqsad = data.get('maqsad')
+    tex1 = texnologiya.split(' ')
+    # print(texnologiya)
+
+    technoc = []
+    str_tech = ''
+    for i in tex1:
+        technoc.append('#' + f'{i}')
+    # print(technoc)
+    leng = len(technoc)
+    # print(leng)
+    for j in range(0, leng):
+        # print(technoc[j])
+        str_tech = str_tech + ' ' + technoc[j]
+    # print(str_tech)
 
     msg = "<b>Ustoz kerak</b>:\n\n"
     msg += f"🎓 Ustoz: <b>{ismi}</b>\n"
@@ -733,7 +803,7 @@ async def maqsad(message: types.Message, state: FSMContext):
     msg += f"👨🏻‍💻 Kasbi: {kasbi}\n"
     msg += f"🕰 Murojaat qilish vaqti: {murojaat_vaqti}\n"
     msg += f"🔎 Maqsad: {maqsad}\n\n"
-    msg += f"#shogird #{(texnologiya.split(' ')[0])} #{hudud}  \n@UstozShogird boti nusxasi"
+    msg += f"#shogird {str_tech} #{hudud}  \n@UstozShogird boti nusxasi"
     await message.answer(msg)
     await db.add_elon_ustoz_kerak(telegram_id=message.from_user.id,
                                   ismi=ismi,
@@ -746,7 +816,7 @@ async def maqsad(message: types.Message, state: FSMContext):
                                   murojaat_vaqti=murojaat_vaqti,
                                   maqsad=maqsad)
 
-    await bot.send_message(-871587737, msg)
+    await bot.send_message(-1001572575437, msg)
 
     await message.answer(
         "📪 So`rovingiz tekshirish uchun adminga jo`natildi!\n\nE'lon 24-48 soat ichida kanalda chiqariladi.",
@@ -756,13 +826,13 @@ async def maqsad(message: types.Message, state: FSMContext):
 
 @dp.message_handler(text="Bog'lanish")
 async def support(message: Message):
-    await message.answer(text="<b>Bog'lanish uchun @status_developer ga murojat qiling</b>", parse_mode='HTML')
-    await message.answer("Bog'lanish uchun birini tangalng", reply_markup=contact)
+    # await message.answer(text="<b>Bog'lanish uchun @status_developer ga murojat qiling</b>", parse_mode='HTML')
+    await message.answer("Bog'lanish", reply_markup=contact)
 
 
 @dp.message_handler(text="Admin bilan bog'lanish")
 async def contact_vs_admin(message: Message):
-    await message.answer(text="<b>Telegram</b>: @status_developer\n<b>Contact</b>: +998 99 835 90 15")
+    await message.answer(text="<b>Telegram</b>: https://t.me/uzsupportautobot")
 
 
 @dp.message_handler(text="Bot yaratuvchisi bilan bog'lanish")

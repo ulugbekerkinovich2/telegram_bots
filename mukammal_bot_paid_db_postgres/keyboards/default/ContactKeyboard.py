@@ -6,13 +6,13 @@ contact = ReplyKeyboardMarkup(
 
         [
             KeyboardButton(text="Admin bilan bog'lanish"),
-            KeyboardButton(text="Bot yaratuvchisi bilan bog'lanish"),
+            # KeyboardButton(text="Bot yaratuvchisi bilan bog'lanish"),
 
         ],
-        [
-            KeyboardButton(text="contact", request_contact=True),
-            KeyboardButton(text="location", request_location=True)
-        ],
+        # [
+        #     KeyboardButton(text="contact", request_contact=True),
+        #     KeyboardButton(text="location", request_location=True)
+        # ],
         [
             KeyboardButton(text="<<Ortga")
         ]
